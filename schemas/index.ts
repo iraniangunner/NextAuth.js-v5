@@ -12,3 +12,15 @@ export const RegisterSchema = z.object({
   password: z.string().min(6, { message: "Minimum 6 charachters required" }),
   name: z.string().min(1, { message: "Name is required" }),
 });
+
+
+export type FormState =
+  | {
+      errors?: {
+        name?: string[]
+        email?: string[]
+        password?: string[]
+      }
+      message?: string
+    }
+  | undefined
