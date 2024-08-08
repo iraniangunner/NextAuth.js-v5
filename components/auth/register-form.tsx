@@ -11,11 +11,23 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { signup } from "@/actions/signup";
-// import { useActionState } from "react";
-import { useFormState } from "react-dom";
+import { useFormState, useFormStatus } from "react-dom";
+import LoadingSpinner from "../ui/loading";
 
 export function Register() {
   const [state, action] = useFormState(signup, undefined);
+
+  function SubmitButton() {
+    const { pending } = useFormStatus();
+
+    return (
+      <Button type="submit" className="w-full">
+        {pending ? <LoadingSpinner /> : "Create an account"}
+      </Button>
+    );
+  }
+
+  // const { pending } = useFormStatus();
   return (
     <Card className="mx-auto max-w-sm">
       <CardHeader>
@@ -62,9 +74,7 @@ export function Register() {
               </ul>
             </div>
           )}
-          <Button type="submit" className="w-full">
-            Create an account
-          </Button>
+          <SubmitButton />
           <Button variant="outline" className="w-full">
             Sign up with GitHub
           </Button>
