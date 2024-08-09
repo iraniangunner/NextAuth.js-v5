@@ -27,7 +27,6 @@ export function Register() {
     );
   }
 
-  // const { pending } = useFormStatus();
   return (
     <Card className="mx-auto max-w-sm">
       <CardHeader>
