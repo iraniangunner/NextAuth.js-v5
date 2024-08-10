@@ -1,5 +1,4 @@
 "use server";
-// import * as z from "zod";
 import bcrypt from "bcryptjs";
 import { db } from "@/lib/db";
 import { RegisterSchema, FormState } from "@/schemas";
@@ -13,7 +12,6 @@ export const signup = async (state: FormState, formData: FormData) => {
   });
 
   if (!validatedFields.success) {
-    // return { error: "Invalid fields" };
     return {
       errors: validatedFields.error.flatten().fieldErrors,
     };
