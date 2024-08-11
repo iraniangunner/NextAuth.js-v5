@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import { db } from "@/lib/db";
 import { RegisterSchema, FormState } from "@/schemas";
 import { getUserByEmail } from "@/data/user";
+import { generateVerificationToken } from "@/lib/tokens";
 
 export const signup = async (state: FormState, formData: FormData) => {
   const validatedFields = RegisterSchema.safeParse({
@@ -34,6 +35,8 @@ export const signup = async (state: FormState, formData: FormData) => {
       password: hashedPassword,
     },
   });
+
+  const verificationToken = await generateVerificationToken(email);
 
   //TODO : Send verification token email
 
