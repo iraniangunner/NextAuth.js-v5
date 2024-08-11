@@ -13,9 +13,23 @@ import { Label } from "@/components/ui/label";
 import { useFormState, useFormStatus } from "react-dom";
 import LoadingSpinner from "../ui/loading";
 import { login } from "@/actions/login";
+import { signIn } from "next-auth/react";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import { useSearchParams } from "next/navigation";
 
 export function Login() {
   const [state, action] = useFormState(login, undefined);
+
+  const onClick = (provider: "google" | "github") => {
+    signIn(provider, { callbackUrl: DEFAULT_LOGIN_REDIRECT });
+  };
+
+  const searchParams = useSearchParams();
+
+  const urlError =
+    searchParams.get("error") === "OAuthAccountNotLinked"
+      ? "Email already in use with other provider!!!"
+      : "";
 
   function SubmitButton() {
     const { pending } = useFormStatus();
@@ -47,7 +61,6 @@ export function Login() {
               required
             />
           </div>
-          {/* {state?.errors?.email && <p>{state.errors.email}</p>} */}
           <div className="grid gap-2">
             <div className="flex items-center">
               <Label htmlFor="password">Password</Label>
@@ -58,11 +71,23 @@ export function Login() {
             <Input id="password" name="password" type="password" required />
           </div>
           <SubmitButton />
-          {state?.error}
-          <Button variant="outline" className="w-full">
-            Login with Google
-          </Button>
+          {state?.error || urlError}
         </form>
+        <Button
+          onClick={() => onClick("google")}
+          variant="outline"
+          className="w-full mt-4"
+        >
+          Login with Google
+        </Button>
+
+        <Button
+          onClick={() => onClick("github")}
+          variant="outline"
+          className="w-full mt-2"
+        >
+          Login with Github
+        </Button>
         <div className="mt-4 text-center text-sm">
           Don&apos;t have an account?{" "}
           <Link href="/auth/signup" className="underline">

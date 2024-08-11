@@ -6,6 +6,7 @@ export default async function SettingsPage() {
     <div>
       <h1>Settins Page</h1>
       {JSON.stringify(session)}
+      <img src={session?.user.image || ""} alt="" />
       <form
         action={async () => {
           "use server";
