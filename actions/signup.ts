@@ -40,5 +40,5 @@ export const signup = async (state: FormState, formData: FormData) => {
 
   //TODO : Send verification token email
 
-  return { message: "User created!" };
+  return { message: "Verification email sent!" };
 };
