@@ -6,6 +6,7 @@ import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";
 import { getUserByEmail } from "@/data/user";
 import { generateVerificationToken } from "@/lib/tokens";
+import { sendVerificationEmail } from "@/lib/mail";
 
 export const login = async (state: FormState, formData: FormData) => {
   const validatedFields = LoginSchema.safeParse({
@@ -30,6 +31,11 @@ export const login = async (state: FormState, formData: FormData) => {
   if (!existingUser.emailVerified) {
     const verificationToken = await generateVerificationToken(
       existingUser.email
+    );
+
+    await sendVerificationEmail(
+      verificationToken.email,
+      verificationToken.token
     );
     return { error: "Confirmation email sent" };
   }
