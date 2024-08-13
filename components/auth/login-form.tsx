@@ -66,32 +66,40 @@ export function Login() {
           <div className="grid gap-2">
             <div className="flex items-center">
               <Label htmlFor="password">Password</Label>
-              <Link href="#" className="ml-auto inline-block text-sm underline">
+              <Link
+                href="/auth/reset"
+                className="ml-auto inline-block text-sm underline"
+              >
                 Forgot your password?
               </Link>
             </div>
             <Input id="password" name="password" type="password" required />
           </div>
           <SubmitButton />
-          {state?.error || urlError}
+          {state?.error || urlError || state?.success}
         </form>
-        <Button
-          onClick={() => onClick("google")}
-          variant="outline"
-          className="w-full mt-4"
-        >
-          {/* Login with Google */}
-          <FcGoogle className="w-5 h-5" />
-        </Button>
 
-        <Button
-          onClick={() => onClick("github")}
-          variant="outline"
-          className="w-full mt-2"
-        >
-          {/* Login with Github */}
-          <FaGithub className="w-5 h-5" />
-        </Button>
+        <div className="grid grid-cols-2 gap-4 mt-4">
+          <div className="grid gap-2">
+            <Button
+              onClick={() => onClick("google")}
+              variant="outline"
+              className="w-full"
+            >
+              <FcGoogle className="w-5 h-5" />
+            </Button>
+          </div>
+          <div className="grid gap-2">
+            <Button
+              onClick={() => onClick("github")}
+              variant="outline"
+              className="w-full"
+            >
+              <FaGithub className="w-5 h-5" />
+            </Button>
+          </div>
+        </div>
+
         <div className="mt-4 text-center text-sm">
           Don&apos;t have an account?{" "}
           <Link href="/auth/signup" className="underline">

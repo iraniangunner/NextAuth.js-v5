@@ -37,7 +37,7 @@ export const login = async (state: FormState, formData: FormData) => {
       verificationToken.email,
       verificationToken.token
     );
-    return { error: "Confirmation email sent" };
+    return { success: "Confirmation email sent" };
   }
 
   try {
