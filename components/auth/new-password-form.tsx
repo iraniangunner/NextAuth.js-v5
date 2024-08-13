@@ -44,7 +44,7 @@ export function NewPasswordForm() {
         <CardContent>
           <form action={action} className="grid gap-4">
             <div className="grid gap-2">
-              <Label htmlFor="email">Password</Label>
+              <Label htmlFor="email">New Password</Label>
               <Input
                 id="password"
                 name="password"
