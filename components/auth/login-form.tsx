@@ -23,7 +23,8 @@ export function Login() {
   const [state, action] = useFormState(login, undefined);
 
   const onClick = (provider: "google" | "github") => {
-    signIn(provider, { callbackUrl: DEFAULT_LOGIN_REDIRECT });
+    // signIn(provider, { callbackUrl: DEFAULT_LOGIN_REDIRECT });
+    signIn(provider, { callbackUrl: "/"});
   };
 
   const searchParams = useSearchParams();

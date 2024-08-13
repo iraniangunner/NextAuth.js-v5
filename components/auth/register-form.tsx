@@ -74,9 +74,6 @@ export function Register() {
             </div>
           )}
           <SubmitButton />
-          <Button variant="outline" className="w-full">
-            Sign up with GitHub
-          </Button>
         </form>
         {state?.message}
         <div className="mt-4 text-center text-sm">

@@ -44,7 +44,8 @@ export const login = async (state: FormState, formData: FormData) => {
     await signIn("credentials", {
       email,
       password,
-      redirectTo: DEFAULT_LOGIN_REDIRECT,
+      // redirectTo: DEFAULT_LOGIN_REDIRECT,
+      redirectTo:"/"
     });
   } catch (error) {
     if (error instanceof AuthError) {

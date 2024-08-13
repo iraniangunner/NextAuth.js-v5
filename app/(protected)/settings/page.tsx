@@ -11,7 +11,8 @@ export default async function SettingsPage() {
         action={async () => {
           "use server";
           await signOut({
-            redirectTo: "/auth/login",
+            // redirectTo: "/auth/login",
+            redirectTo:"/"
           });
         }}
       >
