@@ -78,7 +78,6 @@ export const login = async (state: FormState, formData: FormData) => {
           where: { id: existingConfirmation.id },
         });
       }
-
       await db.twoFactorConfirmation.create({
         data: {
           userId: existingUser.id,
