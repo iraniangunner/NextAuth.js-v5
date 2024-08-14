@@ -5,8 +5,14 @@ import { signIn } from "@/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";
 import { getUserByEmail } from "@/data/user";
-import { generateVerificationToken } from "@/lib/tokens";
-import { sendVerificationEmail } from "@/lib/mail";
+import { getTwoFactorTokenByEmail } from "@/data/two-factor-token";
+import {
+  generateVerificationToken,
+  generateTwoFactorToken,
+} from "@/lib/tokens";
+import { sendVerificationEmail, sendTwoFactorTokenEmail } from "@/lib/mail";
+import { db } from "@/lib/db";
+import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
 
 export const login = async (state: FormState, formData: FormData) => {
   const validatedFields = LoginSchema.safeParse({
@@ -20,7 +26,7 @@ export const login = async (state: FormState, formData: FormData) => {
     };
   }
 
-  const { email, password } = validatedFields.data;
+  const { email, password, code } = validatedFields.data;
 
   const existingUser = await getUserByEmail(email);
 
@@ -40,12 +46,59 @@ export const login = async (state: FormState, formData: FormData) => {
     return { success: "Confirmation email sent" };
   }
 
+  if (existingUser.isTwoFactorEnabled && existingUser.email) {
+    if (code) {
+      //Verify code
+      const twoFactorToken = await getTwoFactorTokenByEmail(existingUser.email);
+
+      if (!twoFactorToken) {
+        return { error: "Invalid code!" };
+      }
+
+      if (twoFactorToken.token !== code) {
+        return { error: "Invalid code!" };
+      }
+
+      const hasExpired = new Date(twoFactorToken.expires) < new Date();
+
+      if (hasExpired) {
+        return { error: "Code expired!" };
+      }
+
+      await db.twoFactorToken.delete({
+        where: { id: twoFactorToken.id },
+      });
+
+      const existingConfirmation = await getTwoFactorConfirmationByUserId(
+        existingUser.id
+      );
+
+      if (existingConfirmation) {
+        await db.twoFactorConfirmation.delete({
+          where: { id: existingConfirmation.id },
+        });
+      }
+
+      await db.twoFactorConfirmation.create({
+        data: {
+          userId: existingUser.id,
+        },
+
+      });
+    } else {
+      const twoFactorToken = await generateTwoFactorToken(existingUser.email);
+      await sendTwoFactorTokenEmail(twoFactorToken.email, twoFactorToken.token);
+
+      return { twoFactor: true };
+    }
+  }
+
   try {
     await signIn("credentials", {
       email,
       password,
       // redirectTo: DEFAULT_LOGIN_REDIRECT,
-      redirectTo:"/"
+      redirectTo: "/",
     });
   } catch (error) {
     if (error instanceof AuthError) {

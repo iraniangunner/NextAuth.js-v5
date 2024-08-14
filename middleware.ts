@@ -33,9 +33,9 @@ export default auth(async function middleware(req) {
     return NextResponse.next();
   }
 
-  if (!isLoggedIn && !isPublicRoute) {
-    return NextResponse.redirect(new URL("/auth/login", nextUrl.origin));
-  }
+  // if (!isLoggedIn && !isPublicRoute) {
+  //   return NextResponse.redirect(new URL("/auth/login", nextUrl.origin));
+  // }
 
   return NextResponse.next();
 });

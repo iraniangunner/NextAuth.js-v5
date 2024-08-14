@@ -24,7 +24,7 @@ export function Login() {
 
   const onClick = (provider: "google" | "github") => {
     // signIn(provider, { callbackUrl: DEFAULT_LOGIN_REDIRECT });
-    signIn(provider, { callbackUrl: "/"});
+    signIn(provider, { callbackUrl: "/" });
   };
 
   const searchParams = useSearchParams();
@@ -39,10 +39,16 @@ export function Login() {
 
     return (
       <Button type="submit" className="w-full">
-        {pending ? <LoadingSpinner /> : "Login"}
+        {pending ? (
+          <LoadingSpinner />
+        ) : (
+          `${state?.twoFactor ? "Confirm" : "Login"}`
+        )}
       </Button>
     );
   }
+
+  // console.log(state?.twoFactor)
 
   return (
     <Card className="mx-auto max-w-sm">
@@ -54,28 +60,45 @@ export function Login() {
       </CardHeader>
       <CardContent>
         <form action={action} className="grid gap-4">
-          <div className="grid gap-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              placeholder="m@example.com"
-              required
-            />
-          </div>
-          <div className="grid gap-2">
-            <div className="flex items-center">
-              <Label htmlFor="password">Password</Label>
-              <Link
-                href="/auth/reset"
-                className="ml-auto inline-block text-sm underline"
-              >
-                Forgot your password?
-              </Link>
+          {state?.twoFactor && (
+            <div className="grid gap-2">
+              <Label htmlFor="code">Two Factor Code</Label>
+              <Input
+                id="code"
+                name="code"
+                // type="email"
+                placeholder="123456"
+                // required
+              />
             </div>
-            <Input id="password" name="password" type="password" required />
-          </div>
+          )}
+          {!state?.twoFactor && (
+            <>
+              <div className="grid gap-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="m@example.com"
+                  required
+                />
+              </div>
+              <div className="grid gap-2">
+                <div className="flex items-center">
+                  <Label htmlFor="password">Password</Label>
+                  <Link
+                    href="/auth/reset"
+                    className="ml-auto inline-block text-sm underline"
+                  >
+                    Forgot your password?
+                  </Link>
+                </div>
+                <Input id="password" name="password" type="password" required />
+              </div>
+            </>
+          )}
+
           <SubmitButton />
           {state?.error || urlError || state?.success}
         </form>
