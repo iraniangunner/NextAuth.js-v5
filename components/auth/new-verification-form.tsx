@@ -1,6 +1,12 @@
 "use client";
-
 import { newVerification } from "@/actions/new-verification";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
@@ -15,7 +21,7 @@ export const NewVerificationForm = () => {
   const token = searchParams.get("token");
 
   const onSubmit = useCallback(() => {
-    if(success || error) return
+    if (success || error) return;
     if (!token) {
       setError("Missing token!!");
       return;
@@ -28,23 +34,33 @@ export const NewVerificationForm = () => {
       .catch(() => {
         setError("Something Went Wrong!!");
       });
-  }, [token , success , error]);
+  }, [token, success, error]);
 
   useEffect(() => {
     onSubmit();
   }, [onSubmit]);
   return (
-    <div>
-      <h1 className="mb-2">New Verification Form</h1>
-      <p className="mb-2">Confirming your verification!!</p>
+    <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+      <Card className="mx-auto max-w-sm">
+        <CardHeader>
+          <CardTitle className="text-2xl">New Verification Form</CardTitle>
+          <CardDescription className="text-center">
+            Confirming your verification!!
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="mt-4 text-center text-sm">
+            {!success && !error ? <BeatLoader /> : ""}
+            <div>{!success && <p>{error}</p>}</div>
+          </div>
 
-      {/* <div className="flex w-full items-center justify-center p-8"> */}
-
-      {!success && !error ? <BeatLoader /> : ""}
-
-      <div>{!success && <p>{error}</p>}</div>
-      {/* </div> */}
-      <Link href="/auth/login">Back to login</Link>
+          <div className="mt-4 text-center text-sm">
+            <Link href="/auth/login" className="underline">
+              Back to login
+            </Link>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };

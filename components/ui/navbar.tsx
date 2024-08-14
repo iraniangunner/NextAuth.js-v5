@@ -69,7 +69,9 @@ export default async function NavBar() {
               </span>
             </DropdownHeader>
             {/* <DropdownItem href="/dashboard">Dashboard</DropdownItem> */}
-            <DropdownItem href="/settings">Settings</DropdownItem>
+            <Link href="/settings">
+              <DropdownItem>Settings</DropdownItem>
+            </Link>
             <DropdownItem>Earnings</DropdownItem>
             <DropdownDivider />
             <LogoutButton />
