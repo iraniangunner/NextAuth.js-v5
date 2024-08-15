@@ -40,8 +40,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         );
 
         if (!twoFactorConfirmation) {
-
-          // console.log("hello")
           return false;
         }
 

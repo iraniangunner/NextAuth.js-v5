@@ -4,7 +4,6 @@ import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation
 import { getUserByEmail } from "@/data/user";
 import { db } from "@/lib/db";
 import { TwoFactorFormState, TwoFactorSchema } from "@/schemas";
-import { FormState } from "@/schemas";
 import { signIn } from "@/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";
