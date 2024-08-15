@@ -35,3 +35,15 @@ export type FormState =
       message?: string;
     }
   | undefined;
+
+
+  export type TwoFactorFormState =
+  | {
+      errors?: {
+        // name?: string[];
+        // email?: string[];
+        code?: string[];
+      };
+      message?: string;
+    }
+  | undefined;

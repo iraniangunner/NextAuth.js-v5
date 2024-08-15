@@ -3,14 +3,14 @@ import { getTwoFactorTokenByEmail } from "@/data/two-factor-token";
 import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
 import { getUserByEmail } from "@/data/user";
 import { db } from "@/lib/db";
-import { TwoFactorSchema } from "@/schemas";
+import { TwoFactorFormState, TwoFactorSchema } from "@/schemas";
 import { FormState } from "@/schemas";
 import { signIn } from "@/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";
 
 export const twoFactorVerificationLogin = async (
-  state: FormState,
+  state: TwoFactorFormState,
   formData: FormData
 ) => {
   const validatedFields = TwoFactorSchema.safeParse({
@@ -32,7 +32,7 @@ export const twoFactorVerificationLogin = async (
   const existingUser = await getUserByEmail(email);
 
   if (!existingUser?.email) {
-    return { error: "no user" };
+    return { error: "No user!" };
   }
   const twoFactorToken = await getTwoFactorTokenByEmail(existingUser.email);
 

@@ -23,7 +23,7 @@ import { twoFactorVerificationLogin } from "@/actions/two-factor";
 export function Login() {
   const [state, action] = useFormState(login, undefined);
   const [confirmState, confirmAction] = useFormState(
-    twoFactorVerificationLogin as any,
+    twoFactorVerificationLogin,
     undefined
   );
 
@@ -93,7 +93,7 @@ export function Login() {
               />
             </div>
             <SubmitFactorButton />
-            {/* {confirmState?.error || urlError} */}
+            {confirmState?.error || urlError}
           </form>
         )}
         {!state?.twoFactor && (
