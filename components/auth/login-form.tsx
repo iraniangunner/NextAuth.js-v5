@@ -18,9 +18,14 @@ import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { useSearchParams } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
+import { twoFactorVerificationLogin } from "@/actions/two-factor";
 
 export function Login() {
   const [state, action] = useFormState(login, undefined);
+  const [confirmState, confirmAction] = useFormState(
+    twoFactorVerificationLogin as any,
+    undefined
+  );
 
   const onClick = (provider: "google" | "github") => {
     // signIn(provider, { callbackUrl: DEFAULT_LOGIN_REDIRECT });
@@ -48,7 +53,15 @@ export function Login() {
     );
   }
 
-  // console.log(state?.twoFactor)
+  function SubmitFactorButton() {
+    const { pending } = useFormStatus();
+
+    return (
+      <Button type="submit" className="w-full">
+        {pending ? <LoadingSpinner /> : "Confirm"}
+      </Button>
+    );
+  }
 
   return (
     <Card className="mx-auto max-w-sm">
@@ -59,49 +72,59 @@ export function Login() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form action={action} className="grid gap-4">
-          {state?.twoFactor && (
+        {state?.twoFactor && (
+          <form action={confirmAction} className="grid gap-4">
             <div className="grid gap-2">
               <Label htmlFor="code">Two Factor Code</Label>
+              <Input id="code" name="code" placeholder="123456" required />
+
               <Input
-                id="code"
-                name="code"
-                // type="email"
-                placeholder="123456"
-                // required
+                id="email"
+                name="email"
+                type="hidden"
+                value={state.email}
+              />
+
+              <Input
+                id="password"
+                name="password"
+                type="hidden"
+                value={state.password}
               />
             </div>
-          )}
-          {!state?.twoFactor && (
-            <>
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  placeholder="m@example.com"
-                  required
-                />
+            <SubmitFactorButton />
+            {/* {confirmState?.error || urlError} */}
+          </form>
+        )}
+        {!state?.twoFactor && (
+          <form action={action} className="grid gap-4">
+            <div className="grid gap-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="m@example.com"
+                required
+              />
+            </div>
+            <div className="grid gap-2">
+              <div className="flex items-center">
+                <Label htmlFor="password">Password</Label>
+                <Link
+                  href="/auth/reset"
+                  className="ml-auto inline-block text-sm underline"
+                >
+                  Forgot your password?
+                </Link>
               </div>
-              <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
-                  <Link
-                    href="/auth/reset"
-                    className="ml-auto inline-block text-sm underline"
-                  >
-                    Forgot your password?
-                  </Link>
-                </div>
-                <Input id="password" name="password" type="password" required />
-              </div>
-            </>
-          )}
+              <Input id="password" name="password" type="password" required />
+            </div>
 
-          <SubmitButton />
-          {state?.error || urlError || state?.success}
-        </form>
+            <SubmitButton />
+            {state?.error || urlError || state?.success}
+          </form>
+        )}
 
         <div className="grid grid-cols-2 gap-4 mt-4">
           <div className="grid gap-2">

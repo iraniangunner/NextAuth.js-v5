@@ -53,7 +53,7 @@ export default async function NavBar() {
             className="z-[900]"
             label={
               <Avatar
-                alt="User settings"
+                alt="user"
                 img={
                   user?.image ||
                   "https://avatar.iran.liara.run/public/boy?username=Ash"
