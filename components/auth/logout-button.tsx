@@ -1,28 +1,8 @@
+"use client";
 import { DropdownItem } from "flowbite-react";
-import { signOut } from "@/auth";
+import { logout } from "@/actions/logout";
 
 export default function LogoutButton() {
-  return (
-    // <form
-    //   action={async () => {
-    //     "use server";
-    //     await signOut({
-    //       redirectTo: "/auth/login",
-    //     });
-    //   }}
-    // >
-    // </form>
-    <DropdownItem
-      type="submit"
-      onClick={async () => {
-        "use server";
-        await signOut({
-        //   redirectTo: "/auth/login",
-        redirectTo:"/"
-        });
-      }}
-    >
-      Sign Out
-    </DropdownItem>
-  );
+  const onClick = () => logout();
+  return <DropdownItem onClick={onClick}>Sign Out</DropdownItem>;
 }

@@ -1,0 +1,16 @@
+"use client";
+import { logout } from "@/actions/logout";
+
+export const SettingsLogoutButton = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  const onClick = () => logout();
+
+  return (
+    <span onClick={onClick} className="cursor-pointer">
+      {children}
+    </span>
+  );
+};
