@@ -1,5 +1,9 @@
 import * as z from "zod";
 
+export const SettingsSchema = z.object({
+  name: z.optional(z.string()),
+});
+
 export const NewPasswordSchema = z.object({
   password: z.string().min(6, { message: "Minimum 6 charachters required" }),
 });
@@ -36,13 +40,19 @@ export type FormState =
     }
   | undefined;
 
-
-  export type TwoFactorFormState =
+export type TwoFactorFormState =
   | {
       errors?: {
-        // name?: string[];
-        // email?: string[];
         code?: string[];
+      };
+      message?: string;
+    }
+  | undefined;
+
+export type SettingsFormState =
+  | {
+      errors?: {
+        name?: string[];
       };
       message?: string;
     }

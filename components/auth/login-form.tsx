@@ -44,11 +44,7 @@ export function Login() {
 
     return (
       <Button type="submit" className="w-full">
-        {pending ? (
-          <LoadingSpinner />
-        ) : (
-          `${state?.twoFactor ? "Confirm" : "Login"}`
-        )}
+        {pending ? <LoadingSpinner /> : "Login"}
       </Button>
     );
   }
