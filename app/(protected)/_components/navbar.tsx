@@ -9,7 +9,6 @@ export const SettingsNavbar = () => {
 
   return (
     <nav className="bg-secondary flex justify-between items-center p-4 rounded-xl w-[600px] shadow-sm">
-      {/* <h1>navbar Component!</h1> */}
       <div className="flex gap-x-2">
         <Button
           asChild
