@@ -37,17 +37,12 @@ export function Register() {
       </CardHeader>
       <CardContent>
         <form action={action} className="grid gap-4">
-          {/* <div className="grid grid-cols-2 gap-4"> */}
           <div className="grid gap-2">
             <Label htmlFor="name">Name</Label>
             <Input id="name" name="name" placeholder="Max" required />
           </div>
           {state?.errors?.name && <p>{state.errors.name}</p>}
-          {/* <div className="grid gap-2">
-              <Label htmlFor="last-name">Last name</Label>
-              <Input id="last-name" placeholder="Robinson" required />
-            </div> */}
-          {/* </div> */}
+
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
             <Input
