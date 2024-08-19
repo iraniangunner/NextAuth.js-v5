@@ -41,13 +41,7 @@ export const settings = async (
     return { error: "Unauthorized" };
   }
 
-  // if (user.isOAuth) {
-  //   validatedFields.data.name = undefined;
-  //   validatedFields.data.password = undefined;
-  //   validatedFields.data.newPassword = undefined;
-  //   validatedFields.data.isTwoFactorEnabled = undefined;
-  // }
-
+  
   if (email && email !== user.email) {
     const exisitingUser = await getUserByEmail(email);
     if (exisitingUser && exisitingUser.id !== user.id) {
