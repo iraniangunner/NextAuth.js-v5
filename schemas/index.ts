@@ -48,10 +48,12 @@ export const ResetSchema = z.object({
 export const LoginSchema = z.object({
   email: z.string().email({ message: "Email is required" }),
   password: z.string({ message: "Password is required" }),
+  callbackUrl: z.optional(z.string()),
 });
 
 export const TwoFactorSchema = z.object({
   code: z.string({ message: "Code is required" }),
+  callbackUrl: z.optional(z.string()),
 });
 
 export const RegisterSchema = z.object({
@@ -68,6 +70,7 @@ export type FormState =
         name?: string[];
         email?: string[];
         password?: string[];
+        // callbackUrl?: string[];
       };
       message?: string;
     }
@@ -77,6 +80,7 @@ export type TwoFactorFormState =
   | {
       errors?: {
         code?: string[];
+        // callbackUrl?: string[];
       };
       message?: string;
     }

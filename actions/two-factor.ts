@@ -14,6 +14,7 @@ export const twoFactorVerificationLogin = async (
 ) => {
   const validatedFields = TwoFactorSchema.safeParse({
     code: formData.get("code"),
+    callbackUrl: formData.get("callbackUrl"),
   });
 
   if (!validatedFields.success) {
@@ -22,7 +23,7 @@ export const twoFactorVerificationLogin = async (
     };
   }
 
-  const { code } = validatedFields.data;
+  const { code, callbackUrl } = validatedFields.data;
 
   const email = formData.get("email") as string;
 
@@ -74,7 +75,7 @@ export const twoFactorVerificationLogin = async (
       email,
       password,
       // redirectTo: DEFAULT_LOGIN_REDIRECT,
-      redirectTo: "/",
+      redirectTo: callbackUrl || "/",
     });
   } catch (error) {
     if (error instanceof AuthError) {

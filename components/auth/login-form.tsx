@@ -27,12 +27,14 @@ export function Login() {
     undefined
   );
 
+  const searchParams = useSearchParams();
+
+  const callbackUrl = searchParams.get("callbackUrl");
+
   const onClick = (provider: "google" | "github") => {
     // signIn(provider, { callbackUrl: DEFAULT_LOGIN_REDIRECT });
-    signIn(provider, { callbackUrl: "/" });
+    signIn(provider, { callbackUrl: callbackUrl || "/" });
   };
-
-  const searchParams = useSearchParams();
 
   const urlError =
     searchParams.get("error") === "OAuthAccountNotLinked"
@@ -87,6 +89,13 @@ export function Login() {
                 type="hidden"
                 value={state.password}
               />
+
+              <Input
+                id="callbackUrl"
+                name="callbackUrl"
+                type="hidden"
+                value={callbackUrl || ""}
+              />
             </div>
             <SubmitFactorButton />
             {confirmState?.error || urlError}
@@ -115,6 +124,13 @@ export function Login() {
                 </Link>
               </div>
               <Input id="password" name="password" type="password" required />
+
+              <Input
+                id="callbackUrl"
+                name="callbackUrl"
+                type="hidden"
+                value={callbackUrl || ""}
+              />
             </div>
 
             <SubmitButton />

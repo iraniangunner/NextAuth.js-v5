@@ -15,6 +15,7 @@ export const login = async (state: FormState, formData: FormData) => {
   const validatedFields = LoginSchema.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),
+    callbackUrl: formData.get("callbackUrl"),
   });
 
   if (!validatedFields.success) {
@@ -23,7 +24,7 @@ export const login = async (state: FormState, formData: FormData) => {
     };
   }
 
-  const { email, password } = validatedFields.data;
+  const { email, password, callbackUrl } = validatedFields.data;
 
   const existingUser = await getUserByEmail(email);
 
@@ -55,7 +56,7 @@ export const login = async (state: FormState, formData: FormData) => {
       email,
       password,
       // redirectTo: DEFAULT_LOGIN_REDIRECT,
-      redirectTo: "/",
+      redirectTo: callbackUrl || "/",
     });
   } catch (error) {
     if (error instanceof AuthError) {
