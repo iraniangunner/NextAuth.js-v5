@@ -20,12 +20,12 @@ import { useSession } from "next-auth/react";
 import { toast } from "sonner";
 
 export default function SettingsPage() {
-  const [state] = useFormState(settings, undefined);
+  // const [state,action] = useFormState(settings, undefined);
   const { update } = useSession();
   const user = useCurrentUser();
 
   const clientAction = async (formData: FormData) => {
-    const { success, error, errors } = await settings(state, formData);
+    const { success, error, errors } = await settings(formData);
 
     if (errors?.password) {
       toast(

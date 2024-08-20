@@ -8,7 +8,7 @@ import { generateVerificationToken } from "@/lib/tokens";
 import { SettingsFormState, SettingsSchema } from "@/schemas";
 
 export const settings = async (
-  state: SettingsFormState,
+  // state: SettingsFormState,
   formData: FormData
 ) => {
   const validatedFields = SettingsSchema.safeParse({
