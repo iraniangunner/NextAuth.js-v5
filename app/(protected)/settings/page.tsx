@@ -17,11 +17,51 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { useSession } from "next-auth/react";
+import { toast } from "sonner";
 
 export default function SettingsPage() {
-  const [state, action] = useFormState(settings, undefined);
+  const [state] = useFormState(settings, undefined);
   const { update } = useSession();
   const user = useCurrentUser();
+
+  const clientAction = async (formData: FormData) => {
+    const { success, error, errors } = await settings(state, formData);
+
+    if (errors?.password) {
+      toast(
+        <div>
+          <p>Password must:</p>
+          <ul>
+            {errors.password.map((error) => (
+              <li key={error}>- {error}</li>
+            ))}
+          </ul>
+        </div>
+      );
+    }
+
+    if (errors?.newPassword) {
+      toast(
+        <div>
+          <p>Password must:</p>
+          <ul>
+            {errors.newPassword.map((error) => (
+              <li key={error}>- {error}</li>
+            ))}
+          </ul>
+        </div>
+      );
+    }
+
+    if (error) {
+      toast.error(error);
+    }
+
+    if (success) {
+      toast.success(success);
+      update();
+    }
+  };
 
   function SubmitButton() {
     const { pending } = useFormStatus();
@@ -38,7 +78,7 @@ export default function SettingsPage() {
         <p className="text-2xl font-semibold text-center">Settings</p>
       </CardHeader>
       <CardContent>
-        <form action={action} className="grid gap-4">
+        <form action={clientAction} className="grid gap-4">
           <div className="grid gap-2">
             <Label htmlFor="name">Name</Label>
             <Input
@@ -48,7 +88,6 @@ export default function SettingsPage() {
               defaultValue={user?.name || undefined}
             />
           </div>
-          {state?.errors?.name && <p>{state.errors.name}</p>}
 
           {user?.isOAuth === false && (
             <>
@@ -61,7 +100,6 @@ export default function SettingsPage() {
                   defaultValue={user?.email || undefined}
                 />
               </div>
-              {state?.errors?.email && <p>{state.errors.email}</p>}
 
               <div className="grid gap-2">
                 <Label htmlFor="password">Password</Label>
@@ -73,17 +111,6 @@ export default function SettingsPage() {
                 />
               </div>
 
-              {state?.errors?.password && (
-                <div>
-                  <p>Password must:</p>
-                  <ul>
-                    {state.errors.password.map((error) => (
-                      <li key={error}>- {error}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
               <div className="grid gap-2">
                 <Label htmlFor="newPassword">New Password</Label>
                 <Input
@@ -93,16 +120,6 @@ export default function SettingsPage() {
                   placeholder="******"
                 />
               </div>
-              {state?.errors?.newPassword && (
-                <div>
-                  <p>Password must:</p>
-                  <ul>
-                    {state.errors.newPassword.map((error) => (
-                      <li key={error}>- {error}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
             </>
           )}
 
@@ -118,8 +135,6 @@ export default function SettingsPage() {
               </SelectContent>
             </Select>
           </div>
-
-          {state?.errors?.role && <p>{state.errors.role}</p>}
 
           {user?.isOAuth === false && (
             <div className="grid gap-2">
@@ -138,14 +153,9 @@ export default function SettingsPage() {
               </div>
             </div>
           )}
-          {state?.error || state?.success}
+
           <SubmitButton />
         </form>
-
-        <Button onClick={() => update()} className="w-full mt-4">
-          Save
-        </Button>
-        <p className="text-xs">* Do not forget to save changes</p>
       </CardContent>
     </Card>
   );
