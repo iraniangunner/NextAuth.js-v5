@@ -13,12 +13,13 @@ import { Label } from "@/components/ui/label";
 import { useFormState, useFormStatus } from "react-dom";
 import LoadingSpinner from "../ui/loading";
 import { login } from "@/actions/login";
-import { signIn } from "next-auth/react";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { useSearchParams } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { twoFactorVerificationLogin } from "@/actions/two-factor";
+import { googleLogin } from "@/actions/google-login";
+import { githubLogin } from "@/actions/github-login";
 
 export function Login() {
   const [state, action] = useFormState(login, undefined);
@@ -31,11 +32,6 @@ export function Login() {
 
   const callbackUrl = searchParams.get("callbackUrl");
 
-  const onClick = (provider: "google" | "github") => {
-    // signIn(provider, { callbackUrl: DEFAULT_LOGIN_REDIRECT });
-    signIn(provider, { callbackUrl: callbackUrl || "/" });
-  };
-
   const urlError =
     searchParams.get("error") === "OAuthAccountNotLinked"
       ? "Email already in use with other provider!!!"
@@ -47,6 +43,26 @@ export function Login() {
     return (
       <Button type="submit" className="w-full">
         {pending ? <LoadingSpinner /> : "Login"}
+      </Button>
+    );
+  }
+
+  function SubmitGoogleButton() {
+    const { pending } = useFormStatus();
+
+    return (
+      <Button type="submit" variant="outline" className="w-full">
+        {pending ? <LoadingSpinner /> : <FcGoogle className="w-5 h-5" />}
+      </Button>
+    );
+  }
+
+  function SubmitGithubButton() {
+    const { pending } = useFormStatus();
+
+    return (
+      <Button type="submit" variant="outline" className="w-full">
+        {pending ? <LoadingSpinner /> : <FaGithub className="w-5 h-5" />}
       </Button>
     );
   }
@@ -140,22 +156,26 @@ export function Login() {
 
         <div className="grid grid-cols-2 gap-4 mt-4">
           <div className="grid gap-2">
-            <Button
-              onClick={() => onClick("google")}
-              variant="outline"
-              className="w-full"
-            >
-              <FcGoogle className="w-5 h-5" />
-            </Button>
+            <form action={googleLogin}>
+              <Input
+                type="hidden"
+                name="callbackUrl"
+                id="callbackUrl1"
+                value={callbackUrl || "/"}
+              />
+              <SubmitGoogleButton />
+            </form>
           </div>
           <div className="grid gap-2">
-            <Button
-              onClick={() => onClick("github")}
-              variant="outline"
-              className="w-full"
-            >
-              <FaGithub className="w-5 h-5" />
-            </Button>
+            <form action={githubLogin}>
+              <Input
+                type="hidden"
+                name="callbackUrl"
+                id="callbackUrl2"
+                value={callbackUrl || "/"}
+              />
+              <SubmitGithubButton />
+            </form>
           </div>
         </div>
 

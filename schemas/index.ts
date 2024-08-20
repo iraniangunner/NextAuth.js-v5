@@ -51,6 +51,10 @@ export const LoginSchema = z.object({
   callbackUrl: z.optional(z.string()),
 });
 
+export const OAthLoginSchema = z.object({
+  callbackUrl: z.optional(z.string()),
+});
+
 export const TwoFactorSchema = z.object({
   code: z.string({ message: "Code is required" }),
   callbackUrl: z.optional(z.string()),
