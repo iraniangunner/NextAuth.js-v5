@@ -32,7 +32,7 @@ export function ResetForm() {
         <CardHeader>
           <CardTitle className="text-2xl">Reset Password</CardTitle>
           <CardDescription>
-            Don't fret! Just type in your email and we will send you a code to
+            Dont fret! Just type in your email and we will send you a code to
             reset your password!
           </CardDescription>
         </CardHeader>
