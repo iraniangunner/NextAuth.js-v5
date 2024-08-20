@@ -27,6 +27,27 @@ export default function SettingsPage() {
   const clientAction = async (formData: FormData) => {
     const { success, error, errors } = await settings(formData);
 
+    if (errors?.password && errors?.newPassword) {
+      toast(
+        <div>
+          <p>Password:</p>
+          <ul>
+            {errors.password.map((error) => (
+              <li key={error}>- {error}</li>
+            ))}
+          </ul>
+          <p>New Password:</p>
+          <ul>
+            {errors.newPassword.map((error) => (
+              <li key={error}>- {error}</li>
+            ))}
+          </ul>
+        </div>
+      );
+
+      return;
+    }
+
     if (errors?.password) {
       toast(
         <div>
@@ -38,6 +59,8 @@ export default function SettingsPage() {
           </ul>
         </div>
       );
+
+      return;
     }
 
     if (errors?.newPassword) {
@@ -51,15 +74,21 @@ export default function SettingsPage() {
           </ul>
         </div>
       );
+
+      return;
     }
 
     if (error) {
       toast.error(error);
+
+      return;
     }
 
     if (success) {
       toast.success(success);
       update();
+
+      return;
     }
   };
 
