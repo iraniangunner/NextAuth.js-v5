@@ -6,6 +6,7 @@ import bcrypt from "bcryptjs";
 import { sendVerificationEmail } from "@/lib/mail";
 import { generateVerificationToken } from "@/lib/tokens";
 import { SettingsFormState, SettingsSchema } from "@/schemas";
+import { revalidatePath } from "next/cache";
 
 export const settings = async (
   // state: SettingsFormState,
@@ -69,19 +70,17 @@ export const settings = async (
     hashedPassword = await bcrypt.hash(newPassword, 10);
   }
 
-  try {
-    await db.user.update({
-      where: { id: dbUser.id },
-      data: {
-        name,
-        email,
-        password: hashedPassword || password,
-        role,
-        isTwoFactorEnabled,
-      },
-    });
-    return { success: "Settings Updated!" };
-  } catch (error) {
-    return { error: "Can not update!" };
-  }
+  await db.user.update({
+    where: { id: dbUser.id },
+    data: {
+      name,
+      email,
+      password: hashedPassword || password,
+      role,
+      isTwoFactorEnabled,
+    },
+  });
+
+  revalidatePath("/(protected)/server");
+  return { success: "Settings Updated!" };
 };
