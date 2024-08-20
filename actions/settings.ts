@@ -41,7 +41,6 @@ export const settings = async (
     return { error: "Unauthorized" };
   }
 
-  
   if (email && email !== user.email) {
     const exisitingUser = await getUserByEmail(email);
     if (exisitingUser && exisitingUser.id !== user.id) {
@@ -69,16 +68,20 @@ export const settings = async (
 
     hashedPassword = await bcrypt.hash(newPassword, 10);
   }
-  await db.user.update({
-    where: { id: dbUser.id },
-    data: {
-      name,
-      email,
-      password: hashedPassword || password,
-      role,
-      isTwoFactorEnabled,
-    },
-  });
 
-  return { success: "Settings Updated!" };
+  try {
+    await db.user.update({
+      where: { id: dbUser.id },
+      data: {
+        name,
+        email,
+        password: hashedPassword || password,
+        role,
+        isTwoFactorEnabled,
+      },
+    });
+    return { success: "Settings Updated!" };
+  } catch (error) {
+    return { error: "Can not update!" };
+  }
 };

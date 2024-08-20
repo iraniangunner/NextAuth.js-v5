@@ -29,19 +29,24 @@ export const signup = async (state: FormState, formData: FormData) => {
     return { message: "Email already in use!" };
   }
 
-  await db.user.create({
-    data: {
-      name,
-      email,
-      password: hashedPassword,
-    },
-  });
+  try {
+    await db.user.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword,
+      },
+    });
 
-  const verificationToken = await generateVerificationToken(email);
+    const verificationToken = await generateVerificationToken(email);
 
- //Send verification token email
-
-  await sendVerificationEmail(verificationToken.email, verificationToken.token);
-
-  return { message: "Verification email sent!" };
+    //Send verification token email
+    await sendVerificationEmail(
+      verificationToken.email,
+      verificationToken.token
+    );
+    return { message: "Verification email sent!" };
+  } catch (error) {
+    return { message: "Can not send email!" };
+  }
 };

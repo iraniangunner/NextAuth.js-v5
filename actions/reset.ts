@@ -24,8 +24,6 @@ export const reset = async (state: FormState, formData: FormData) => {
     return { error: "Email does not exist!" };
   }
 
-  
-
   //Generate token & Send email
 
   const passwordResetToken = await generatePasswordResetToken(email);

@@ -45,18 +45,24 @@ export const newPassword = async (state: FormState, formData: FormData) => {
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  await db.user.update({
-    where: { id: existingUser.id },
-    data: {
-      password: hashedPassword,
-    },
-  });
+  try {
+    await db.user.update({
+      where: { id: existingUser.id },
+      data: {
+        password: hashedPassword,
+      },
+    });
 
     await db.passwordResetToken.delete({
       where: { id: existingToken.id },
     });
 
-  return {
-    success: "Password Updated!",
-  };
+    return {
+      success: "Password Updated!",
+    };
+  } catch (error) {
+    return {
+      error: "Password does not Updated!",
+    };
+  }
 };

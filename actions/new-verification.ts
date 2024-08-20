@@ -22,17 +22,21 @@ export const newVerification = async (token: string) => {
     return { error: "Email does not exist!" };
   }
 
-  await db.user.update({
-    where: { id: existingUser.id },
-    data: {
-      emailVerified: new Date(),
-      email: existingToken.email,
-    },
-  });
+  try {
+    await db.user.update({
+      where: { id: existingUser.id },
+      data: {
+        emailVerified: new Date(),
+        email: existingToken.email,
+      },
+    });
 
-  await db.verificationToken.delete({
-    where: { id: existingToken.id },
-  });
+    await db.verificationToken.delete({
+      where: { id: existingToken.id },
+    });
 
-  return { success: "Email Verified!" };
+    return { success: "Email Verified!" };
+  } catch (error) {
+    return { success: "Email does not Verified!" };
+  }
 };
