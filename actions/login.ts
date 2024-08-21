@@ -58,6 +58,7 @@ export const login = async (state: FormState, formData: FormData) => {
       // redirectTo: DEFAULT_LOGIN_REDIRECT,
       redirectTo: callbackUrl || "/",
     });
+
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {

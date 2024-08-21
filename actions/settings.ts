@@ -9,7 +9,7 @@ import { SettingsFormState, SettingsSchema } from "@/schemas";
 import { revalidatePath } from "next/cache";
 
 export const settings = async (
-  // state: SettingsFormState,
+  state: SettingsFormState,
   formData: FormData
 ) => {
   const validatedFields = SettingsSchema.safeParse({
