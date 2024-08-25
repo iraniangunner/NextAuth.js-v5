@@ -25,6 +25,13 @@ export const DashboardNavbar = () => {
       >
         <Link href="/settings">Settings</Link>
       </Button>
+
+      <Button
+        asChild
+        variant={pathname === "/" ? "default" : "outline"}
+      >
+        <Link href="/">main</Link>
+      </Button>
     </div>
   );
 };

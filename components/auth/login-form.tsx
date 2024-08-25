@@ -20,6 +20,7 @@ import { FaGithub } from "react-icons/fa";
 import { twoFactorVerificationLogin } from "@/actions/two-factor";
 import { googleLogin } from "@/actions/google-login";
 import { githubLogin } from "@/actions/github-login";
+import { signIn } from "next-auth/react";
 
 export function Login() {
   const [state, action] = useFormState(login, undefined);
@@ -110,7 +111,7 @@ export function Login() {
                 id="callbackUrl"
                 name="callbackUrl"
                 type="hidden"
-                value={callbackUrl || ""}
+                value={callbackUrl || DEFAULT_LOGIN_REDIRECT}
               />
             </div>
             <SubmitFactorButton />
@@ -145,7 +146,7 @@ export function Login() {
                 id="callbackUrl"
                 name="callbackUrl"
                 type="hidden"
-                value={callbackUrl || ""}
+                value={callbackUrl || DEFAULT_LOGIN_REDIRECT}
               />
             </div>
 
@@ -161,7 +162,7 @@ export function Login() {
                 type="hidden"
                 name="callbackUrl"
                 id="callbackUrl1"
-                value={callbackUrl || "/"}
+                value={callbackUrl || DEFAULT_LOGIN_REDIRECT}
               />
               <SubmitGoogleButton />
             </form>
@@ -172,7 +173,7 @@ export function Login() {
                 type="hidden"
                 name="callbackUrl"
                 id="callbackUrl2"
-                value={callbackUrl || "/"}
+                value={callbackUrl || DEFAULT_LOGIN_REDIRECT}
               />
               <SubmitGithubButton />
             </form>

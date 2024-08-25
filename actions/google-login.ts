@@ -15,5 +15,5 @@ export const googleLogin = async (formData: FormData) => {
 
   const { callbackUrl } = validatedFields.data;
 
-  await signIn("google", { redirectTo: callbackUrl || "/" });
+  await signIn("google", { redirectTo: callbackUrl });
 };

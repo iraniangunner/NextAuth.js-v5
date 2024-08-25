@@ -1,3 +1,4 @@
+"use client";
 import { auth, signOut } from "@/auth";
 import {
   Avatar,
@@ -13,9 +14,14 @@ import {
 } from "flowbite-react";
 import LogoutButton from "../auth/logout-button";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
-export default async function NavBar() {
-  const session = await auth();
+export default function NavBar() {
+  // const session = await auth();
+  // const user = session?.user;
+
+  const { data: session, status } = useSession();
+
   const user = session?.user;
 
   return (
@@ -30,7 +36,7 @@ export default async function NavBar() {
           Flowbite React
         </span>
       </NavbarBrand>
-      {!session ? (
+      {!(status === "authenticated" && user) ? (
         <div className="flex md:order-2">
           <Link
             href="/auth/login"

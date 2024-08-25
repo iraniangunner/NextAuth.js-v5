@@ -15,5 +15,5 @@ export const githubLogin = async (formData: FormData) => {
 
   const { callbackUrl } = validatedFields.data;
 
-  await signIn("github", { redirectTo: callbackUrl || "/" });
+  await signIn("github", { redirectTo: callbackUrl });
 };
