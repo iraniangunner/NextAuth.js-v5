@@ -1,4 +1,3 @@
-"use client";
 import { auth, signOut } from "@/auth";
 import {
   Avatar,
@@ -16,13 +15,12 @@ import LogoutButton from "../auth/logout-button";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 
-export default function NavBar() {
-  // const session = await auth();
-  // const user = session?.user;
-
-  const { data: session, status } = useSession();
-
+export default async function NavBar() {
+  const session = await auth();
   const user = session?.user;
+
+  // const { data: session, status } = useSession();
+  // const user = session?.user;
 
   return (
     <Navbar fluid rounded>
@@ -36,7 +34,7 @@ export default function NavBar() {
           Flowbite React
         </span>
       </NavbarBrand>
-      {!(status === "authenticated" && user) ? (
+      {!user ? (
         <div className="flex md:order-2">
           <Link
             href="/auth/login"
@@ -74,11 +72,12 @@ export default function NavBar() {
                 {user?.email}
               </span>
             </DropdownHeader>
-            {/* <DropdownItem href="/dashboard">Dashboard</DropdownItem> */}
             <Link href="/settings">
               <DropdownItem>Settings</DropdownItem>
             </Link>
-            <DropdownItem>Earnings</DropdownItem>
+            <Link href="/dashboard">
+              <DropdownItem>Dashboard</DropdownItem>
+            </Link>
             <DropdownDivider />
             <LogoutButton />
           </Dropdown>
