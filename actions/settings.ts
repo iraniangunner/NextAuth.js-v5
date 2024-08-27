@@ -81,6 +81,6 @@ export const settings = async (
     },
   });
 
-  revalidatePath("/(protected)/server");
+  revalidatePath("/(protected)/dashboard");
   return { success: "Settings Updated!" };
 };
