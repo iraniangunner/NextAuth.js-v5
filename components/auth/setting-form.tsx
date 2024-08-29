@@ -57,7 +57,9 @@ export const SettingForm = ({ user }: { user: any }) => {
                 />
               </div>
 
-              {state?.errors?.email && <p>{state.errors.email}</p>}
+              {state?.errors?.email && (
+                <p className="text-red-600">{state.errors.email}</p>
+              )}
 
               <div className="grid gap-2">
                 <Label htmlFor="password">Password</Label>
@@ -70,7 +72,7 @@ export const SettingForm = ({ user }: { user: any }) => {
               </div>
 
               {state?.errors?.password && (
-                <div>
+                <div className="text-red-600">
                   <p>Password must:</p>
                   <ul>
                     {state.errors.password.map((error) => (
@@ -91,7 +93,7 @@ export const SettingForm = ({ user }: { user: any }) => {
               </div>
 
               {state?.errors?.newPassword && (
-                <div>
+                <div className="text-red-600">
                   <p>Password must:</p>
                   <ul>
                     {state.errors.newPassword.map((error) => (
@@ -133,8 +135,8 @@ export const SettingForm = ({ user }: { user: any }) => {
               </div>
             </div>
           )}
-
-          {state?.success || state?.error}
+          {state?.error && <p className="text-red-600">{state.error}</p>}
+          {state?.success && <p className="text-green-600">{state.success}</p>}
 
           <SubmitButton />
         </form>

@@ -41,7 +41,9 @@ export function Register() {
             <Label htmlFor="name">Name</Label>
             <Input id="name" name="name" placeholder="Max" required />
           </div>
-          {state?.errors?.name && <p>{state.errors.name}</p>}
+          {state?.errors?.name && (
+            <p className="text-red-600">{state.errors.name}</p>
+          )}
 
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
@@ -53,13 +55,15 @@ export function Register() {
               required
             />
           </div>
-          {state?.errors?.email && <p>{state.errors.email}</p>}
+          {state?.errors?.email && (
+            <p className="text-red-600">{state.errors.email}</p>
+          )}
           <div className="grid gap-2">
             <Label htmlFor="password">Password</Label>
             <Input id="password" name="password" type="password" />
           </div>
           {state?.errors?.password && (
-            <div>
+            <div className="text-red-600">
               <p>Password must:</p>
               <ul>
                 {state.errors.password.map((error) => (
@@ -70,7 +74,8 @@ export function Register() {
           )}
           <SubmitButton />
         </form>
-        {state?.message}
+        {state?.error && <p className="text-red-600">{state.error}</p>}
+        {state?.success && <p className="text-green-600">{state.success}</p>}
         <div className="mt-4 text-center text-sm">
           Already have an account?{" "}
           <Link href="/auth/login" className="underline">

@@ -20,7 +20,6 @@ import { FaGithub } from "react-icons/fa";
 import { twoFactorVerificationLogin } from "@/actions/two-factor";
 import { googleLogin } from "@/actions/google-login";
 import { githubLogin } from "@/actions/github-login";
-import { signIn } from "next-auth/react";
 
 export function Login() {
   const [state, action] = useFormState(login, undefined);
@@ -91,7 +90,10 @@ export function Login() {
           <form action={confirmAction} className="grid gap-4">
             <div className="grid gap-2">
               <Label htmlFor="code">Two Factor Code</Label>
-              <Input id="code" name="code" placeholder="123456" required />
+              <Input id="code" name="code" placeholder="******" required />
+              {confirmState?.errors?.code && (
+                <p className="text-red-600">{confirmState.errors.code}</p>
+              )}
 
               <Input
                 id="email"
@@ -115,7 +117,12 @@ export function Login() {
               />
             </div>
             <SubmitFactorButton />
-            {confirmState?.error || urlError}
+
+            {confirmState?.error && (
+              <p className="text-red-600">{confirmState?.error}</p>
+            )}
+
+            {urlError && <p className="text-red-600">{urlError}</p>}
           </form>
         )}
         {!state?.twoFactor && (
@@ -128,8 +135,9 @@ export function Login() {
                   name="email"
                   type="email"
                   placeholder="m@example.com"
-                  required
+                  // required
                 />
+                {state?.errors?.email && <p>{state.errors.email}</p>}
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
@@ -141,7 +149,11 @@ export function Login() {
                     Forgot your password?
                   </Link>
                 </div>
-                <Input id="password" name="password" type="password" required />
+                <Input id="password" name="password" type="password" />
+
+                {state?.errors?.password && (
+                  <p className="text-red-600">{state.errors.password}</p>
+                )}
 
                 <Input
                   id="callbackUrl"
@@ -152,7 +164,11 @@ export function Login() {
               </div>
 
               <SubmitButton />
-              {state?.error || urlError || state?.success}
+              {state?.error && <p className="text-red-600">{state.error}</p>}
+              {urlError && <p className="text-red-600">{urlError}</p>}
+              {state?.success && (
+                <p className="text-green-600">{state.success}</p>
+              )}
             </form>
             <div className="grid grid-cols-2 gap-4 mt-4">
               <div className="grid gap-2">

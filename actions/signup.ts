@@ -26,7 +26,7 @@ export const signup = async (state: FormState, formData: FormData) => {
   const existingUser = await getUserByEmail(email);
 
   if (existingUser) {
-    return { message: "Email already in use!" };
+    return { error: "Email already in use!" };
   }
 
   try {
@@ -45,8 +45,8 @@ export const signup = async (state: FormState, formData: FormData) => {
       verificationToken.email,
       verificationToken.token
     );
-    return { message: "Verification email sent!" };
+    return { success: "Verification email sent!" };
   } catch (error) {
-    return { message: "Can not send email!" };
+    return { error: "Can not send email!" };
   }
 };

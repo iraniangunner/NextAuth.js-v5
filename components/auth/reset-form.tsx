@@ -47,9 +47,16 @@ export function ResetForm() {
                 placeholder="m@example.com"
                 required
               />
+              {state?.errors?.email && (
+                <p className="text-red-600">{state.errors.email}</p>
+              )}
             </div>
             <SubmitButton />
-            {state?.error || state?.success}
+            {state?.error && <p className="text-red-600">{state.error}</p>}
+
+            {state?.success && (
+              <p className="text-green-600">{state.success}</p>
+            )}
           </form>
 
           <div className="mt-4 text-center text-sm">
