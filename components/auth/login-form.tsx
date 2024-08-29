@@ -119,73 +119,74 @@ export function Login() {
           </form>
         )}
         {!state?.twoFactor && (
-          <form action={action} className="grid gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="m@example.com"
-                required
-              />
-            </div>
-            <div className="grid gap-2">
-              <div className="flex items-center">
-                <Label htmlFor="password">Password</Label>
-                <Link
-                  href="/auth/reset"
-                  className="ml-auto inline-block text-sm underline"
-                >
-                  Forgot your password?
-                </Link>
+          <>
+            <form action={action} className="grid gap-4">
+              <div className="grid gap-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="m@example.com"
+                  required
+                />
               </div>
-              <Input id="password" name="password" type="password" required />
+              <div className="grid gap-2">
+                <div className="flex items-center">
+                  <Label htmlFor="password">Password</Label>
+                  <Link
+                    href="/auth/reset"
+                    className="ml-auto inline-block text-sm underline"
+                  >
+                    Forgot your password?
+                  </Link>
+                </div>
+                <Input id="password" name="password" type="password" required />
 
-              <Input
-                id="callbackUrl"
-                name="callbackUrl"
-                type="hidden"
-                value={callbackUrl || DEFAULT_LOGIN_REDIRECT}
-              />
+                <Input
+                  id="callbackUrl"
+                  name="callbackUrl"
+                  type="hidden"
+                  value={callbackUrl || DEFAULT_LOGIN_REDIRECT}
+                />
+              </div>
+
+              <SubmitButton />
+              {state?.error || urlError || state?.success}
+            </form>
+            <div className="grid grid-cols-2 gap-4 mt-4">
+              <div className="grid gap-2">
+                <form action={googleLogin}>
+                  <Input
+                    type="hidden"
+                    name="callbackUrl"
+                    id="callbackUrl1"
+                    value={callbackUrl || DEFAULT_LOGIN_REDIRECT}
+                  />
+                  <SubmitGoogleButton />
+                </form>
+              </div>
+              <div className="grid gap-2">
+                <form action={githubLogin}>
+                  <Input
+                    type="hidden"
+                    name="callbackUrl"
+                    id="callbackUrl2"
+                    value={callbackUrl || DEFAULT_LOGIN_REDIRECT}
+                  />
+                  <SubmitGithubButton />
+                </form>
+              </div>
             </div>
 
-            <SubmitButton />
-            {state?.error || urlError || state?.success}
-          </form>
+            <div className="mt-4 text-center text-sm">
+              Don&apos;t have an account?{" "}
+              <Link href="/auth/signup" className="underline">
+                Sign up
+              </Link>
+            </div>
+          </>
         )}
-
-        <div className="grid grid-cols-2 gap-4 mt-4">
-          <div className="grid gap-2">
-            <form action={googleLogin}>
-              <Input
-                type="hidden"
-                name="callbackUrl"
-                id="callbackUrl1"
-                value={callbackUrl || DEFAULT_LOGIN_REDIRECT}
-              />
-              <SubmitGoogleButton />
-            </form>
-          </div>
-          <div className="grid gap-2">
-            <form action={githubLogin}>
-              <Input
-                type="hidden"
-                name="callbackUrl"
-                id="callbackUrl2"
-                value={callbackUrl || DEFAULT_LOGIN_REDIRECT}
-              />
-              <SubmitGithubButton />
-            </form>
-          </div>
-        </div>
-
-        <div className="mt-4 text-center text-sm">
-          Don&apos;t have an account?{" "}
-          <Link href="/auth/signup" className="underline">
-            Sign up
-          </Link>
-        </div>
       </CardContent>
     </Card>
   );
