@@ -7,6 +7,8 @@ import { LoginSchema } from "./schemas";
 import { getUserByEmail } from "./data/user";
 
 export default {
+  trustHost: true,
+  // secret:process.env.AUTH_SECRET,
   providers: [
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID,
