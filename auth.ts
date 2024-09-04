@@ -20,6 +20,10 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         data: { emailVerified: new Date() },
       });
     },
+
+    // async signOut() {
+    //   await signOut({ redirectTo: "/" });
+    // },
   },
   callbacks: {
     async signIn({ user, account }) {
