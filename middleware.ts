@@ -18,8 +18,6 @@ export default auth(async function middleware(req) {
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
-  // console.log(isLoggedIn)
-
   if (isApiAuthRoute) {
     return NextResponse.next();
   }
