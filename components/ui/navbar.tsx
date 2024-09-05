@@ -71,6 +71,7 @@ export default async function NavBar() {
               <span className="block truncate text-sm font-medium">
                 {user?.email}
               </span>
+              <span>Role: {user.role}</span>
             </DropdownHeader>
             <Link href="/settings">
               <DropdownItem>Settings</DropdownItem>
