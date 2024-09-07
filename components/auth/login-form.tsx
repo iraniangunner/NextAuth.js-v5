@@ -128,7 +128,7 @@ export function Login() {
         )}
         {!state?.twoFactor && (
           <>
-            <form action={action} className="grid gap-4">
+            <form action={action} onSubmit={() => console.log("Hello")} className="grid gap-4">
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
                 <Input

@@ -10,8 +10,8 @@ export const SettingsLogoutButton = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const onClick = () => logout();
-
+  // const onClick = () => logout();
+  const onClick = () => signOut();
   return (
     <span onClick={onClick} className="cursor-pointer">
       {children}
