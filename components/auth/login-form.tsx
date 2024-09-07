@@ -177,10 +177,10 @@ export function Login() {
             </form>
             <div className="grid grid-cols-2 gap-4 mt-4">
               <div className="grid gap-2">
-                <div onClick={() => signIn("google")}>
+                {/* <div onClick={() => signIn("google")}>
                   <SubmitGoogleButton />
-                </div>
-                {/* <form action={googleLogin}>
+                </div> */}
+                <form action={googleLogin}>
                   <Input
                     type="hidden"
                     name="callbackUrl"
@@ -188,10 +188,10 @@ export function Login() {
                     value={callbackUrl || DEFAULT_LOGIN_REDIRECT}
                   />
                   <SubmitGoogleButton />
-                </form> */}
+                </form>
               </div>
               <div className="grid gap-2">
-                {/* <form action={githubLogin}>
+                <form action={githubLogin}>
                   <Input
                     type="hidden"
                     name="callbackUrl"
@@ -199,13 +199,13 @@ export function Login() {
                     value={callbackUrl || DEFAULT_LOGIN_REDIRECT}
                   />
                   <SubmitGithubButton />
-                </form> */}
+                </form>
 
-                <div>
+                {/* <div>
                   <Button onClick={() => signIn("github", { redirectTo: "/settings" })} variant="outline" className="w-full">
                     <FaGithub className="w-5 h-5" />
                   </Button>
-                </div>
+                </div> */}
               </div>
             </div>
 
