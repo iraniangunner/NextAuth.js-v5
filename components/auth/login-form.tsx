@@ -128,7 +128,11 @@ export function Login() {
         )}
         {!state?.twoFactor && (
           <>
-            <form action={action} onSubmit={() => console.log("Hello")} className="grid gap-4">
+            <form
+              action={action}
+              onSubmit={() => console.log("Hello")}
+              className="grid gap-4"
+            >
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
@@ -197,8 +201,10 @@ export function Login() {
                   <SubmitGithubButton />
                 </form> */}
 
-                <div onClick={() => signIn("github")}>
-                  <SubmitGithubButton />
+                <div>
+                  <Button onClick={() => signIn("github", { redirectTo: "/settings" })} variant="outline" className="w-full">
+                    <FaGithub className="w-5 h-5" />
+                  </Button>
                 </div>
               </div>
             </div>
