@@ -16,7 +16,7 @@ import LogoutButton from "../auth/logout-button";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 
-export default async function NavBar() {
+export default function NavBar() {
   // const session = await auth();
   // const user = session?.user;
 
