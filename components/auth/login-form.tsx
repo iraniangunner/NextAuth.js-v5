@@ -20,6 +20,7 @@ import { FaGithub } from "react-icons/fa";
 import { twoFactorVerificationLogin } from "@/actions/two-factor";
 import { googleLogin } from "@/actions/google-login";
 import { githubLogin } from "@/actions/github-login";
+import { signIn } from "next-auth/react";
 
 export function Login() {
   const [state, action] = useFormState(login, undefined);
@@ -183,7 +184,7 @@ export function Login() {
                 </form>
               </div>
               <div className="grid gap-2">
-                <form action={githubLogin}>
+                {/* <form action={githubLogin}>
                   <Input
                     type="hidden"
                     name="callbackUrl"
@@ -191,7 +192,11 @@ export function Login() {
                     value={callbackUrl || DEFAULT_LOGIN_REDIRECT}
                   />
                   <SubmitGithubButton />
-                </form>
+                </form> */}
+
+                <div onClick={() => signIn("github")}>
+                  <SubmitGithubButton />
+                </div>
               </div>
             </div>
 
