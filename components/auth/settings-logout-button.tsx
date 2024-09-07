@@ -1,5 +1,6 @@
 "use client";
 
+import { logout } from "@/actions/logout";
 import { signOut } from "next-auth/react";
 
 // import { logout } from "@/actions/logout";
@@ -9,7 +10,7 @@ export const SettingsLogoutButton = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const onClick = () => signOut();
+  const onClick = () => logout();
 
   return (
     <span onClick={onClick} className="cursor-pointer">
