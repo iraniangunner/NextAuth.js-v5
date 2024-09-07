@@ -5,6 +5,6 @@ import { signOut } from "next-auth/react";
 
 export default function LogoutButton() {
   // const onClick = () => logout();
-  const onClick = () => signOut({callbackUrl:"/"});
+  const onClick = () => signOut({callbackUrl:"/auth/login"});
   return <DropdownItem onClick={onClick}>Sign Out</DropdownItem>;
 }
