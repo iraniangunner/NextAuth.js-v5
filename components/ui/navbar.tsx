@@ -16,11 +16,11 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 
 export default async function NavBar() {
-  const session = await auth();
-  const user = session?.user;
-
-  // const { data: session, status } = useSession();
+  // const session = await auth();
   // const user = session?.user;
+
+  const { data: session, status } = useSession();
+  const user = session?.user;
 
   return (
     <Navbar fluid rounded>
