@@ -1,3 +1,4 @@
+"use client";
 import { auth, signOut } from "@/auth";
 import {
   Avatar,
