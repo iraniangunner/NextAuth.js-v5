@@ -33,7 +33,8 @@ export const UserButton = async () => {
         <DropdownMenuItem>
           <ExitIcon className="h-4 w-4 mr-2" />
           {/* <button type="submit">Logout</button> */}
-          <button onClick={() => signOut({callbackUrl:"/auth/login"})}>Sign out</button>
+          {/* <button onClick={() => signOut({callbackUrl:"/auth/login"})}>Sign out</button> */}
+          <SettingsLogoutButton/>
         </DropdownMenuItem>
         {/* </form>  */}
       </DropdownMenuContent>
