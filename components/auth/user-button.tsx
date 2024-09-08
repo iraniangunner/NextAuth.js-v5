@@ -11,6 +11,7 @@ import { currentUser } from "@/lib/auth";
 import { SettingsLogoutButton } from "@/components/auth/settings-logout-button";
 import { logout } from "@/actions/logout";
 import { signOut } from "@/auth";
+import Link from "next/link";
 
 export const UserButton = async () => {
   const user = await currentUser();
@@ -25,15 +26,16 @@ export const UserButton = async () => {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-40" align="end">
-        <form action={async (formData:FormData) => {
+        {/* <form action={async (formData:FormData) => {
             'use server';
             await signOut({redirectTo:"/auth/login"});
-          }} className="cursor-pointer">
-          {/* <DropdownMenuItem> */}
-            <ExitIcon className="h-4 w-4 mr-2" />
-            <button type="submit">Logout</button>
-          {/* </DropdownMenuItem> */}
-        </form>
+          }} className="cursor-pointer"> */}
+        <DropdownMenuItem>
+          <ExitIcon className="h-4 w-4 mr-2" />
+          {/* <button type="submit">Logout</button> */}
+          <Link href="/signout">Signout</Link>
+        </DropdownMenuItem>
+        {/* </form>  */}
       </DropdownMenuContent>
     </DropdownMenu>
   );
