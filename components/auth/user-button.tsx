@@ -34,7 +34,8 @@ export const UserButton = async () => {
           <ExitIcon className="h-4 w-4 mr-2" />
           {/* <button type="submit">Logout</button> */}
           {/* <button onClick={() => signOut({callbackUrl:"/auth/login"})}>Sign out</button> */}
-          <SettingsLogoutButton/>
+          {/* <SettingsLogoutButton/> */}
+          <Link href="/signout">Sign out</Link>
         </DropdownMenuItem>
         {/* </form>  */}
       </DropdownMenuContent>
