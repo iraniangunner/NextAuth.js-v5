@@ -10,7 +10,7 @@ import { ExitIcon } from "@radix-ui/react-icons";
 import { currentUser } from "@/lib/auth";
 import { SettingsLogoutButton } from "@/components/auth/settings-logout-button";
 import { logout } from "@/actions/logout";
-import { signOut } from "@/auth";
+import { signOut } from "next-auth/react";
 import Link from "next/link";
 
 export const UserButton = async () => {
@@ -33,7 +33,7 @@ export const UserButton = async () => {
         <DropdownMenuItem>
           <ExitIcon className="h-4 w-4 mr-2" />
           {/* <button type="submit">Logout</button> */}
-          <Link href="/signout">Signout</Link>
+          <button onClick={() => signOut({callbackUrl:"/auth/login"})}>Sign out</button>
         </DropdownMenuItem>
         {/* </form>  */}
       </DropdownMenuContent>

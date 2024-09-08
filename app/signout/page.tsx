@@ -13,7 +13,7 @@ export default function SignOutPage() {
           await signOut({ redirectTo: "/auth/login" });
         }}
       > */}
-        <button onClick={() => signOut()}>Sign out</button>
+        <button onClick={() => signOut({callbackUrl:"/auth/login"})}>Sign out</button>
       {/* </form> */}
     </div>
   );
