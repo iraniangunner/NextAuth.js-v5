@@ -20,12 +20,9 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         data: { emailVerified: new Date() },
       });
     },
-
-    async signOut(session){
-       
-    }
   },
   callbacks: {
+
     async signIn({ user, account }) {
       //Allow OAuth without email verification
       if (account?.provider !== "credentials") {
