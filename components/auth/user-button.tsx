@@ -9,6 +9,7 @@ import { FaUser } from "react-icons/fa";
 import { ExitIcon } from "@radix-ui/react-icons";
 import { currentUser } from "@/lib/auth";
 import { SettingsLogoutButton } from "@/components/auth/settings-logout-button";
+import { logout } from "@/actions/logout";
 
 export const UserButton = async () => {
   const user = await currentUser();
@@ -23,12 +24,12 @@ export const UserButton = async () => {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-40" align="end">
-        <SettingsLogoutButton>
+        <form action={logout} className="cursor-pointer">
           <DropdownMenuItem>
             <ExitIcon className="h-4 w-4 mr-2" />
-            Logout
+            <button type="submit">Logout</button>
           </DropdownMenuItem>
-        </SettingsLogoutButton>
+        </form>
       </DropdownMenuContent>
     </DropdownMenu>
   );
