@@ -20,10 +20,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         data: { emailVerified: new Date() },
       });
     },
-
-    // async signOut() {
-    //   await signOut({ redirectTo: "/" });
-    // },
   },
   callbacks: {
     async signIn({ user, account }) {
@@ -73,7 +69,10 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       return session;
     },
 
-    async jwt({ token }) {
+    async jwt({ token, trigger, session }) {
+      if (trigger === "update" && session) {
+        token = { ...token, ...session };
+      }
       if (!token.sub) {
         return token;
       }
@@ -88,6 +87,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       token.email = existingUser.email;
       token.role = existingUser.role;
       token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
+
       return token;
     },
   },
