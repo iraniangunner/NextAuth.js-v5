@@ -1,6 +1,5 @@
 import { DashboardNavbar } from "@/components/auth/dashboard-navbar";
 import { UserButton } from "@/components/auth/user-button";
-import { Suspense } from "react";
 
 export const DashboardHeader = () => {
   return (
