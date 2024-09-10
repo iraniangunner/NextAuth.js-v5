@@ -20,7 +20,11 @@ import { FaGithub } from "react-icons/fa";
 import { twoFactorVerificationLogin } from "@/actions/two-factor";
 import { googleLogin } from "@/actions/google-login";
 import { githubLogin } from "@/actions/github-login";
-import { signIn } from "next-auth/react";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
 
 export function Login() {
   const [state, action] = useFormState(login, undefined);
@@ -81,9 +85,13 @@ export function Login() {
   return (
     <Card className="mx-auto max-w-sm">
       <CardHeader>
-        <CardTitle className="text-2xl">Login</CardTitle>
+        <CardTitle className="text-2xl">
+          {state?.twoFactor ? "" : "Login"}
+        </CardTitle>
         <CardDescription>
-          Enter your email below to login to your account
+          {state?.twoFactor
+            ? "Please introduce the 6 digit code we sent via email."
+            : "Enter your email and password below to login to your account."}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -91,7 +99,18 @@ export function Login() {
           <form action={confirmAction} className="grid gap-4">
             <div className="grid gap-2">
               <Label htmlFor="code">Two Factor Code</Label>
-              <Input id="code" name="code" placeholder="******" required />
+
+              <InputOTP name="code" id="code" maxLength={6}>
+                <InputOTPGroup>
+                  <InputOTPSlot index={0} />
+                  <InputOTPSlot index={1} />
+                  <InputOTPSlot index={2} />
+                  <InputOTPSlot index={3} />
+                  <InputOTPSlot index={4} />
+                  <InputOTPSlot index={5} />
+                </InputOTPGroup>
+              </InputOTP>
+
               {confirmState?.errors?.code && (
                 <p className="text-red-600">{confirmState.errors.code}</p>
               )}

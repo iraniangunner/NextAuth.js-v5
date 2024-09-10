@@ -14,6 +14,9 @@ import {
 import LogoutButton from "../auth/logout-button";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import { Suspense } from "react";
+import { NavbarAvatar } from "../auth/navbar-avatar";
+import LoadingSpinner from "./loading";
 
 export default async function NavBar() {
   const session = await auth();
@@ -51,38 +54,9 @@ export default async function NavBar() {
         </div>
       ) : (
         <div className="flex md:order-2">
-          <Dropdown
-            arrowIcon={false}
-            inline
-            className="z-[900]"
-            label={
-              <Avatar
-                alt="user"
-                img={
-                  user?.image ||
-                  "https://avatar.iran.liara.run/public/boy?username=Ash"
-                }
-                rounded
-              />
-            }
-          >
-            <DropdownHeader>
-              <span className="block text-sm">{user?.name}</span>
-              <span className="block truncate text-sm font-medium">
-                {user?.email}
-              </span>
-              <span>Role: {user.role}</span>
-            </DropdownHeader>
-            <Link href="/settings">
-              <DropdownItem>Settings</DropdownItem>
-            </Link>
-            <Link href="/dashboard">
-              <DropdownItem>Dashboard</DropdownItem>
-            </Link>
-            <DropdownDivider />
-            <LogoutButton />
-          </Dropdown>
-          <NavbarToggle />
+          <Suspense fallback={<LoadingSpinner />}>
+            <NavbarAvatar />
+          </Suspense>
         </div>
       )}
 

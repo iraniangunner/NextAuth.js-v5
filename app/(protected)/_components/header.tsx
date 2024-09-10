@@ -1,10 +1,11 @@
-import { DashboardNavbar} from "@/components/auth/dashboard-navbar";
+import { DashboardNavbar } from "@/components/auth/dashboard-navbar";
 import { UserButton } from "@/components/auth/user-button";
+import { Suspense } from "react";
 
 export const DashboardHeader = () => {
   return (
     <nav className="bg-secondary flex items-center justify-between p-4 rounded-xl w-[600px] shadow-sm">
-      <DashboardNavbar/>
+      <DashboardNavbar />
       <UserButton />
     </nav>
   );

@@ -9,9 +9,7 @@ import { FaUser } from "react-icons/fa";
 import { ExitIcon } from "@radix-ui/react-icons";
 import { currentUser } from "@/lib/auth";
 import { SettingsLogoutButton } from "@/components/auth/settings-logout-button";
-import { logout } from "@/actions/logout";
-import { signOut } from "next-auth/react";
-import Link from "next/link";
+
 
 export const UserButton = async () => {
   const user = await currentUser();
