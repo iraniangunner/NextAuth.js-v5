@@ -47,7 +47,7 @@ export function Login() {
 
     return (
       <Button type="submit" className="w-full">
-        {pending ? <LoadingSpinner /> : "Login"}
+        {pending ? <LoadingSpinner /> : "Sign in"}
       </Button>
     );
   }
@@ -57,6 +57,7 @@ export function Login() {
 
     return (
       <Button type="submit" variant="outline" className="w-full">
+        <p className="mr-2">Login with Google</p>
         {pending ? <LoadingSpinner /> : <FcGoogle className="w-5 h-5" />}
       </Button>
     );
@@ -67,6 +68,7 @@ export function Login() {
 
     return (
       <Button type="submit" variant="outline" className="w-full">
+        <p className="mr-2">Login with Github</p>
         {pending ? <LoadingSpinner /> : <FaGithub className="w-5 h-5" />}
       </Button>
     );
@@ -147,11 +149,7 @@ export function Login() {
         )}
         {!state?.twoFactor && (
           <>
-            <form
-              action={action}
-              onSubmit={() => console.log("Hello")}
-              className="grid gap-4"
-            >
+            <form action={action} className="grid gap-4">
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
@@ -159,7 +157,6 @@ export function Login() {
                   name="email"
                   type="email"
                   placeholder="m@example.com"
-                  // required
                 />
                 {state?.errors?.email && <p>{state.errors.email}</p>}
               </div>
@@ -194,11 +191,8 @@ export function Login() {
                 <p className="text-green-600">{state.success}</p>
               )}
             </form>
-            <div className="grid grid-cols-2 gap-4 mt-4">
+            <div className="grid gap-4 mt-4">
               <div className="grid gap-2">
-                {/* <div onClick={() => signIn("google")}>
-                  <SubmitGoogleButton />
-                </div> */}
                 <form action={googleLogin}>
                   <Input
                     type="hidden"
@@ -219,12 +213,6 @@ export function Login() {
                   />
                   <SubmitGithubButton />
                 </form>
-
-                {/* <div>
-                  <Button onClick={() => signIn("github", { redirectTo: "/settings" })} variant="outline" className="w-full">
-                    <FaGithub className="w-5 h-5" />
-                  </Button>
-                </div> */}
               </div>
             </div>
 
