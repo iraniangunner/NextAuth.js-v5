@@ -6,6 +6,7 @@ import authConfig from "@/auth.config";
 import { getUserById } from "@/data/user";
 import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
 import { getAccountByUserId } from "./data/account";
+import { Session } from "inspector";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(db),
@@ -53,6 +54,12 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       return true;
     },
     async session({ token, session, user }) {
+      // const timestamp =  Date.now() - Number(token.expires_at) * 1000;
+      // const date = new Date(timestamp);
+
+      // const hours = date.getHours();
+      // console.log(hours);    
+
       if (token.sub && session.user) {
         session.user.id = token.sub;
       }
@@ -66,14 +73,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         session.user.isOAuth = token.isOAuth as boolean;
         session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean;
       }
-
-      // return session
-      // const timestamp = 1726264153;
-      // const date = new Date(timestamp * 1000);
-      // const hours = date.getHours();
-      // console.log(hours); // Output: 9
-
-      // console.log(token);
 
       return session;
     },
@@ -103,6 +102,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           ...token,
           access_token: account.access_token,
           expires_at: account.expires_at,
+          // expires_at: Math.floor(Date.now() / 1000) + 10,
           refresh_token: account.refresh_token,
         };
       } else if (
@@ -119,6 +119,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           // The `token_endpoint` can be found in the provider's documentation. Or if they support OIDC,
           // at their `/.well-known/openid-configuration` endpoint.
           // i.e. https://accounts.google.com/.well-known/openid-configuration
+
           const response = await fetch("https://oauth2.googleapis.com/token", {
             method: "POST",
             body: new URLSearchParams({
@@ -143,6 +144,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           token.expires_at = Math.floor(
             Date.now() / 1000 + newTokens.expires_in
           );
+          // token.expires_at = Math.floor(Date.now() / 1000) + 10;
           // Some providers only issue refresh tokens once, so preserve if we did not get a new one
           if (newTokens.refresh_token)
             token.refresh_token = newTokens.refresh_token;
