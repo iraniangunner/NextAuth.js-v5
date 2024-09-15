@@ -101,7 +101,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           ...token,
           access_token: account.access_token,
           expires_at: account.expires_at,
-          // expires_at: Math.floor(Date.now() / 1000) + 10,
           refresh_token: account.refresh_token,
         };
       } else if (
@@ -143,7 +142,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           token.expires_at = Math.floor(
             Date.now() / 1000 + newTokens.expires_in
           );
-          // token.expires_at = Math.floor(Date.now() / 1000) + 10;
           // Some providers only issue refresh tokens once, so preserve if we did not get a new one
           if (newTokens.refresh_token)
             token.refresh_token = newTokens.refresh_token;
