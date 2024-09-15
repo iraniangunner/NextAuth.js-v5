@@ -52,12 +52,9 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       }
       return true;
     },
-    async session({ token, session, user }) {
-      // const timestamp =  Date.now() - Number(token.expires_at) * 1000;
-      // const date = new Date(timestamp);
-      // const hours = date.getHours();
-      // console.log(hours);
 
+    async session({ token, session, user }) {
+      // session.error = token.error;
       if (token.sub && session.user) {
         session.user.id = token.sub;
       }
@@ -115,8 +112,9 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           return token;
         }
 
-        if (!token.refresh_token && existingAccount)
+        if (!token.refresh_token && existingAccount) {
           throw new TypeError("Missing refresh_token");
+        }
 
         try {
           // The `token_endpoint` can be found in the provider's documentation. Or if they support OIDC,
