@@ -55,7 +55,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     async session({ token, session, user }) {
       // const timestamp =  Date.now() - Number(token.expires_at) * 1000;
       // const date = new Date(timestamp);
-
       // const hours = date.getHours();
       // console.log(hours);
 
@@ -95,13 +94,14 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       token.role = existingUser.role;
       token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
 
-      if (account) {
+      if (existingAccount) {
         // First-time login, save the `access_token`, its expiry and the `refresh_token`
+
         return {
           ...token,
-          access_token: account.access_token,
-          expires_at: account.expires_at,
-          refresh_token: account.refresh_token,
+          access_token: existingAccount.access_token,
+          expires_at: existingAccount.expires_at,
+          refresh_token: existingAccount.refresh_token,
         };
       } else if (
         token.expires_at &&
@@ -111,7 +111,12 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         return token;
       } else {
         // Subsequent logins, but the `access_token` has expired, try to refresh it
-        if (!token.refresh_token) throw new TypeError("Missing refresh_token");
+        if (!existingAccount) {
+          return token;
+        }
+
+        if (!token.refresh_token && existingAccount)
+          throw new TypeError("Missing refresh_token");
 
         try {
           // The `token_endpoint` can be found in the provider's documentation. Or if they support OIDC,
