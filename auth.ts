@@ -57,7 +57,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       // const date = new Date(timestamp);
 
       // const hours = date.getHours();
-      // console.log(hours);    
+      // console.log(hours);
 
       if (token.sub && session.user) {
         session.user.id = token.sub;
@@ -95,69 +95,67 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       token.role = existingUser.role;
       token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
 
-      // if (account) {
-      //   // First-time login, save the `access_token`, its expiry and the `refresh_token`
-      //   return {
-      //     ...token,
-      //     access_token: account.access_token,
-      //     expires_at: account.expires_at,
-      //     // expires_at: Math.floor(Date.now() / 1000) + 10,
-      //     refresh_token: account.refresh_token,
-      //   };
-      // } else if (
-      //   token.expires_at &&
-      //   Date.now() < Number(token.expires_at) * 1000
-      // ) {
-      //   // Subsequent logins, but the `access_token` is still valid
-      //   return token;
-      // } else {
-      //   // Subsequent logins, but the `access_token` has expired, try to refresh it
-      //   if (!token.refresh_token) throw new TypeError("Missing refresh_token");
+      if (account) {
+        // First-time login, save the `access_token`, its expiry and the `refresh_token`
+        return {
+          ...token,
+          access_token: account.access_token,
+          expires_at: account.expires_at,
+          // expires_at: Math.floor(Date.now() / 1000) + 10,
+          refresh_token: account.refresh_token,
+        };
+      } else if (
+        token.expires_at &&
+        Date.now() < Number(token.expires_at) * 1000
+      ) {
+        // Subsequent logins, but the `access_token` is still valid
+        return token;
+      } else {
+        // Subsequent logins, but the `access_token` has expired, try to refresh it
+        if (!token.refresh_token) throw new TypeError("Missing refresh_token");
 
-      //   try {
-      //     // The `token_endpoint` can be found in the provider's documentation. Or if they support OIDC,
-      //     // at their `/.well-known/openid-configuration` endpoint.
-      //     // i.e. https://accounts.google.com/.well-known/openid-configuration
+        try {
+          // The `token_endpoint` can be found in the provider's documentation. Or if they support OIDC,
+          // at their `/.well-known/openid-configuration` endpoint.
+          // i.e. https://accounts.google.com/.well-known/openid-configuration
 
-      //     const response = await fetch("https://oauth2.googleapis.com/token", {
-      //       method: "POST",
-      //       body: new URLSearchParams({
-      //         client_id: process.env.GOOGLE_CLIENT_ID!,
-      //         client_secret: process.env.GOOGLE_CLIENT_SECRET!,
-      //         grant_type: "refresh_token",
-      //         refresh_token: token.refresh_token!,
-      //       } as any),
-      //     });
+          const response = await fetch("https://oauth2.googleapis.com/token", {
+            method: "POST",
+            body: new URLSearchParams({
+              client_id: process.env.GOOGLE_CLIENT_ID!,
+              client_secret: process.env.GOOGLE_CLIENT_SECRET!,
+              grant_type: "refresh_token",
+              refresh_token: token.refresh_token!,
+            } as any),
+          });
 
-      //     const tokensOrError = await response.json();
+          const tokensOrError = await response.json();
 
-      //     if (!response.ok) throw tokensOrError;
+          if (!response.ok) throw tokensOrError;
 
-      //     const newTokens = tokensOrError as {
-      //       access_token: string;
-      //       expires_in: number;
-      //       refresh_token?: string;
-      //     };
+          const newTokens = tokensOrError as {
+            access_token: string;
+            expires_in: number;
+            refresh_token?: string;
+          };
 
-      //     token.access_token = newTokens.access_token;
-      //     token.expires_at = Math.floor(
-      //       Date.now() / 1000 + newTokens.expires_in
-      //     );
-      //     // token.expires_at = Math.floor(Date.now() / 1000) + 10;
-      //     // Some providers only issue refresh tokens once, so preserve if we did not get a new one
-      //     if (newTokens.refresh_token)
-      //       token.refresh_token = newTokens.refresh_token;
-      //     return token;
-      //   } catch (error) {
-      //     console.error("Error refreshing access_token", error);
-      //     // If we fail to refresh the token, return an error so we can handle it on the page
-      //     token.error = "RefreshTokenError";
-      //   }
+          token.access_token = newTokens.access_token;
+          token.expires_at = Math.floor(
+            Date.now() / 1000 + newTokens.expires_in
+          );
+          // token.expires_at = Math.floor(Date.now() / 1000) + 10;
+          // Some providers only issue refresh tokens once, so preserve if we did not get a new one
+          if (newTokens.refresh_token)
+            token.refresh_token = newTokens.refresh_token;
+          return token;
+        } catch (error) {
+          console.error("Error refreshing access_token", error);
+          // If we fail to refresh the token, return an error so we can handle it on the page
+          token.error = "RefreshTokenError";
+        }
 
-      //   return token;
-      // }
-
-      return token;
+        return token;
+      }
     },
   },
   session: { strategy: "jwt" },
