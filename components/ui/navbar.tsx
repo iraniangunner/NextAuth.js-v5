@@ -1,19 +1,11 @@
-import { auth, signOut } from "@/auth";
+import { auth } from "@/auth";
 import {
-  Avatar,
-  Dropdown,
-  DropdownDivider,
-  DropdownHeader,
-  DropdownItem,
   Navbar,
   NavbarBrand,
   NavbarCollapse,
   NavbarLink,
-  NavbarToggle,
 } from "flowbite-react";
-import LogoutButton from "../auth/logout-button";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
 import { Suspense } from "react";
 import { NavbarAvatar } from "../auth/navbar-avatar";
 import LoadingSpinner from "./loading";
@@ -21,6 +13,11 @@ import LoadingSpinner from "./loading";
 export default async function NavBar() {
   const session = await auth();
   const user = session?.user;
+
+  // const session = await auth()
+  // if (session?.error === "RefreshTokenError") {
+  //   await signIn("google") // Force sign in to obtain a new set of access and refresh tokens
+  // }
 
   // const { data: session, status } = useSession();
   // const user = session?.user;
