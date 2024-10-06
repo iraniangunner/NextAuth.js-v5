@@ -19,8 +19,33 @@ export default async function NavBar() {
   //   await signIn("google") // Force sign in to obtain a new set of access and refresh tokens
   // }
 
-  // const { data: session, status } = useSession();
-  // const user = session?.user;
+
+  
+// export const fetchClient = async (url, options) => {
+//   const session = await auth();
+//   console.log(`From the fetchClient ${JSON.stringify(session.accessToken)}`);
+
+//   return fetch(url, {
+//     ...options,
+//     headers: {
+//       ...options?.headers,
+//       ...(session && { Authorization: `Bearer ${session.accessToken}` }),
+//     },
+//   });
+// };
+
+  // const res = await fetchClient(`${process.env.API_SERVER_BASE_URL}/api/users`, {
+  //   headers: { "Content-Type": "application/json" },
+  // });
+
+  // if(!res.ok) {
+  //   if (res.status === 403) {
+  //     console.log("Token Expired");
+  //     redirect('/login');
+  //   }
+  // }
+
+  // const users = await res.json() ?? [];
 
   return (
     <Navbar fluid rounded>
